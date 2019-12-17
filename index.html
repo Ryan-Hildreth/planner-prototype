@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+
+  <script type="text/javascript" src="./js/schedule.js"></script>
+  <link rel="stylesheet" type="text/css" href="./css/style.css" />
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      window.scheduler = $("#schedule").timeSchedule({
+        startDate: new Date('12/17/2019'),
+        change: function (data) {
+          $("#logs").append($("<div>").text("change event:" + JSON.stringify(data)));
+        },
+        click: function (data) {
+          $("#logs").append($("<div>").text("click event:" + JSON.stringify(data)));
+        }
+      });
+      scheduler.addRow({
+        title: `Item -1`,
+        html: '<button>!</button>',
+        id: -1,
+        start: new Date('11/11/2019'),
+        end: new Date(new Date().getTime() + (DAY * 100)),
+        data: {}
+      });
+      for (var i = 0; i < 20; ++i)
+        scheduler.addRow({
+          title: `Item ${i}`,
+          html: '<button>!</button>',
+          id: parseInt(i),
+          start: new Date('12/29/2019'),
+          end: new Date(new Date().getTime() + (DAY * 100)),
+          data: {}
+        });
+
+      scheduler.render();
+    });
+  </script>
+</head>
+
+<body>
+  <div id="schedule"></div>
+  <pre id="logs"></pre>
+</body>
+
+</html>

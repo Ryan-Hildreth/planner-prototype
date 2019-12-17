@@ -1,0 +1,116 @@
+html,body {
+  font-family:sans-serif;
+}
+
+/*******************************************************/
+.disabled-section {
+  height: 100%; 
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,0,0,.2) 4px, rgba(255,0,0,.2) 8px);
+  position: absolute;
+  z-index: 21;
+  border-right: 3px solid rgba(255, 0, 0, .5);
+  box-sizing: border-box;
+  pointer-events: none;
+  margin-left: 250px;
+}
+
+#schedule .sc_main_box{ 
+  position:relative;
+  overflow: visible;
+}
+#schedule .sc_wrapper{
+  overflow: auto;
+  position: relative;
+  max-height: 500px;
+}
+#schedule .sc_menu{
+	width:100%;
+	height:26px;
+}
+#schedule .sc_header{
+  background:#333;
+  width: 100%;
+  height:26px;
+  white-space:nowrap;
+  position:absolute;
+  z-index: 23;
+  top:0;
+}
+#schedule .sc_header .sc_time{
+	text-align:center;
+	border-left:solid 1px #FFF;
+}
+#schedule .sc_data{
+	float:left;
+	font-weight:bold;
+	color:#FFFFFF;
+	background:#333;
+  position:absolute;
+  width: 250px;
+  z-index: 22;
+}
+#schedule .sc_header_scroll{
+  margin-left: 250px;
+  position: absolute;
+  white-space:nowrap;
+  background:#333;
+	top:0;
+}
+#schedule .sc_header .sc_time,
+#schedule .sc_main_scroll .sc_time{
+	color:#FFFFFF;
+	padding:4px 0;
+	line-height:18px;
+  height:26px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+#schedule .sc_main{
+  background-image: linear-gradient(90deg, #FFF 0px, #FFF 50%, #EEE 50%, #EEE 100%);
+  margin-left: 250px;
+}
+#schedule .sc_Bar{
+	color:#FFF;
+	cursor:move;
+	z-index:10;
+  height: 40px !important;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+}
+#schedule .sc_Bar:before,
+#schedule .sc_Bar:after {
+  color: #000;
+  border: 1px solid #DDD;
+  background: #FFF;
+  padding: 0 4px;
+  margin: 1px;
+  font-size: 0.8em;
+  line-height: normal;
+  pointer-events: none;
+}
+#schedule .sc_Bar:before{
+  content:attr(start);
+  float: left;
+}
+#schedule .sc_Bar:after{
+  content:attr(end);
+  float: right;
+}
+#schedule .ui-draggable-dragging,
+#schedule .ui-resizeable{
+	z-index:20;
+}
+#schedule .sc_title_extra{
+  float:right;
+  padding-right: 8px;
+}
+#schedule .sc_title{
+  text-indent: 8px;
+}
+#schedule .sc_title,
+#schedule .timeline{
+	border-bottom:solid 1px #777;
+  height: 40px;
+  padding:2px 0;
+  line-height: 40px;
+  position:relative;
+}
