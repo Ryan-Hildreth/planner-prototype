@@ -24,12 +24,10 @@ function getRangeMonths(startDate, length) {
 
 function getRangeDays(startDate, length) {
   var formatter = new Intl.DateTimeFormat(undefined, { day: 'numeric', weekday: 'narrow' });
-  var year = startDate.getFullYear();
-  var month = startDate.getMonth() + 1;
-  var day = startDate.getDate();
+  var date = new Date(startDate);
   var data = [];
-  for (var i = 0; i < length; ++i, ++day) {
-    date = new Date(year, month, day);
+  for (var i = 0; i < length; ++i) {
+    date.setDate(date.getDate() + 1);
     data.push({ text: formatter.format(date), days: 1 });
   }
   return data;
@@ -58,6 +56,7 @@ function setBarAttributes(bar, start, end) {
     var tableStartTime;
     var initialStartDate = setting.startDate;
     var today = new Date();
+    var lastScrollDay = 0;
 
     function renderRow(row) {
       element.find('.sc_data').append($(`<div class="sc_title"><span class="title">${row.title}</span><span class="sc_title_extra">${row.html || ''}</span></div>`));
@@ -71,6 +70,7 @@ function setBarAttributes(bar, start, end) {
       bar.css({
         left: (startTime * setting.widthTimeX),
         width: ((endTime - startTime) * setting.widthTimeX),
+        marginLeft: Math.floor(-setting.widthTimeX / 2)
       });
 
       var barCount = element.find(".sc_Bar").length;
@@ -134,6 +134,7 @@ function setBarAttributes(bar, start, end) {
 
     function applyScale() {
       setting.startDate = initialStartDate;
+      today = new Date();
 
       var data;
       var totalDays = 0;
@@ -141,18 +142,18 @@ function setBarAttributes(bar, start, end) {
       switch (setting.scale) {
         case "day":
           setting.widthTimeX = 50;
-          setting.startDate = new Date(setting.startDate.getFullYear(), setting.startDate.getMonth(), setting.startDate.getDate());
+          setting.startDate = new Date(setting.startDate.getFullYear(), setting.startDate.getMonth(), setting.startDate.getDate() - 1);
           data = getRangeDays(setting.startDate, 500);
           break;
         case "month":
-          setting.widthTimeX = 10;
+          setting.widthTimeX = 8;
           setting.startDate = new Date(setting.startDate.getFullYear(), setting.startDate.getMonth(), 1);
           data = getRangeMonths(setting.startDate, 60);
           break;
         case "year":
           setting.widthTimeX = 1;
           setting.startDate = new Date(setting.startDate.getFullYear(), 0, 1);
-          data = getRangeYears(setting.startDate, 5);
+          data = getRangeYears(setting.startDate, 10);
           break;
         default:
           throw new Error("Unrecognized scale value: " + scale);
@@ -163,12 +164,14 @@ function setBarAttributes(bar, start, end) {
         totalDays += data[i].days;
       }
 
-      var todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-      element.find('.disabled-section').width(Math.ceil((todayStart - setting.startDate) / DAY * setting.widthTimeX));
+      element.find('.disabled-section').width(((today - setting.startDate) / DAY) * setting.widthTimeX);
       element.find(".sc_main").width(totalDays * setting.widthTimeX);
       element.find('.sc_main').css('background-size', `${setting.widthTimeX * 2}px auto`);
-
       tableStartTime = setting.startDate.getTime();
+
+      // Reset scroll position to what the day it was previously on
+      // TODO: Change this to use a placeable marker instead of 'lastScrollDay'
+      element.find('.sc_wrapper').scrollLeft(Math.floor(((lastScrollDay - setting.startDate) / DAY) * setting.widthTimeX));
     }
 
     this.getRows = function () {
@@ -207,13 +210,17 @@ function setBarAttributes(bar, start, end) {
 </div>`);
 
       element.find(".sc_wrapper").on('scroll', function (ev) {
+        // Keep the sidebar/header visible when scrolling
         element.find(".sc_data").css('left', `${ev.target.scrollLeft}px`);
         element.find(".sc_header").css('top', `${ev.target.scrollTop}px`);
+
+        // Store the current scroll position when changing scale
+        lastScrollDay = Math.floor((ev.target.scrollLeft / setting.widthTimeX) * DAY + tableStartTime);
       });
 
       applyScale();
 
-      // Render all rows in alphabetical order:
+      // Render all rows in alphabetical order
       for (var row of rows.sort((a, b) => a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1)) {
         renderRow(row);
       }

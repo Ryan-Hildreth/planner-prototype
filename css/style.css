@@ -5,10 +5,10 @@ html,body {
 /*******************************************************/
 .disabled-section {
   height: 100%; 
-  background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,0,0,.2) 4px, rgba(255,0,0,.2) 8px);
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,0,0,.1) 4px, rgba(255,0,0,.1) 8px);
   position: absolute;
   z-index: 21;
-  border-right: 3px solid rgba(255, 0, 0, .5);
+  border-right: 1px solid rgba(255, 0, 0, .8);
   box-sizing: border-box;
   pointer-events: none;
   margin-left: 250px;
@@ -73,7 +73,7 @@ html,body {
 	color:#FFF;
 	cursor:move;
 	z-index:10;
-  height: 40px !important;
+  height: 42px !important;
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
 }
 #schedule .sc_Bar:before,
@@ -82,10 +82,11 @@ html,body {
   border: 1px solid #DDD;
   background: #FFF;
   padding: 0 4px;
-  margin: 1px;
+  margin: 2px;
   font-size: 0.8em;
   line-height: normal;
   pointer-events: none;
+  height: 15px;
 }
 #schedule .sc_Bar:before{
   content:attr(start);
@@ -109,8 +110,9 @@ html,body {
 #schedule .sc_title,
 #schedule .timeline{
 	border-bottom:solid 1px #777;
-  height: 40px;
+  height: 42px;
   padding:2px 0;
-  line-height: 40px;
+  line-height: 42px;
   position:relative;
+  overflow:hidden;
 }

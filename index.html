@@ -47,6 +47,11 @@
 </head>
 
 <body>
+  <div style="margin-bottom:5px;">
+    <a href="javascript:void(0);" onclick="scheduler.setScale('day');scheduler.render();">Day</a>
+    <a href="javascript:void(0);" onclick="scheduler.setScale('month');scheduler.render();">Month</a>
+    <a href="javascript:void(0);" onclick="scheduler.setScale('year');scheduler.render();">Year</a>
+  </div>
   <div id="schedule"></div>
   <pre id="logs"></pre>
 </body>
